@@ -14,7 +14,6 @@ dolore magna aliqua.
 ```
 
 
-
 **A paragraph of one to three short sentences, that describe what the product
 does.** Urna cursus eget nunc scelerisque viverra mauris in. Nibh mauris
 cursus mattis molestie a iaculis at vestibulum rhoncus est pellentesque
