@@ -1,11 +1,40 @@
-# Starter pack
+(support)=
+# How to get support
 
-**A single sentence that says what the product is, succinctly and memorably.**
-Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et[^1]
-dolore magna aliqua.
+<!-- Include start release -->
 
+LXD maintains different release branches in parallel.
 
+Long term support (LTS) releases
+: The current LTS releases are LXD 5.21.x (snap channel `5.21/stable` - this is the default channel), LXD 5.0.x (snap channel `5.0/stable`) and LXD 4.0.x (snap channel `4.0/stable`).
 
+  An LTS release starts its life with full support, then moves to maintenance support, and finally to extended support. OS vendors might provide additional support[^1].
+
+  - Full support: frequent bugfixes and security updates are provided.
+  - Maintenance support: high impact bugfixes and security updates are provided.
+  - Extended support: only high and critical security updates are provided.
+
+  The LTS releases follow the Ubuntu release schedule and are released every two years:
+
+  - LXD 5.21 is supported until June 2029.
+    It gets frequent bugfix and security updates, but does not receive any feature additions.
+    Updates to this release happen approximately every six months, but this schedule should be seen as a rough estimation that can change based on priorities and discovered bugs.
+    Currently in full support phase.
+  - LXD 5.0 is supported until June 2027.
+    Currently in maintenance support phase.
+  - LXD 4.0 is supported until June 2025.
+    Currently in extended support phase.
+
+Feature releases
+: After LXD 5.21 is released, the next feature release will be LXD 6.x (starting with 6.1).
+  It is available through the snap channels `latest/stable`, `latest/candidate`, and `latest/edge`, in addition to channels for the most recent specific releases (for example, `6.1/stable`).
+  See `snap info lxd` for a full list of available channels.
+
+  Feature releases are pushed out about every month and contain new features as well as bugfixes.
+  The normal support length for those releases is until the next release comes out.
+  Some Linux distributions might offer longer support for particular feature releases that they decided to ship.
+
+<!-- Include end release -->
 
 % Include content from [../README.md](../README.md)
 ```{include} ../README.md
@@ -13,73 +42,4 @@ dolore magna aliqua.
     :end-before: <!-- Include end support -->
 ```
 
-[^1]: Testing
-
-**A paragraph of one to three short sentences, that describe what the product
-does.** Urna cursus eget nunc scelerisque viverra mauris in. Nibh mauris
-cursus mattis molestie a iaculis at vestibulum rhoncus est pellentesque
-elit. Diam phasellus vestibulum lorem sed.
-
-**A third paragraph of similar length, this time explaining what need the
-product meets.** Dui ut ornare lectus sit amet est. Nunc sed augue lacus
-viverra vitae congue eu consequat ac libero id faucibus nisl tincidunt eget
-nullam.
-
-**Finally, a paragraph that describes whom the product is useful for.** Nunc
-non blandit massa enim nec dui nunc mattis enim. Ornare arcu odio ut sem
-nulla pharetra diam porttitor leo a diam sollicitudin tempor id eu. Ipsum
-dolor sit amet consectetur adipiscing elit pellentesque habitant.
-
----------
-
-## In this documentation
-
-````{grid} 1 1 2 2
-
-```{grid-item-card} [Tutorials](index)
-
-**Start here**: a hands-on introduction to Example Product for new users
-```
-
-```{grid-item-card} [How-to guides](index)
-
-**Step-by-step guides** covering key operations and common tasks
-```
-
-````
-
-````{grid} 1 1 2 2
-:reverse:
-
-```{grid-item-card} [Reference](index)
-
-**Technical information** - specifications, APIs, architecture
-```
-
-```{grid-item-card} [Explanations](index)
-
-**Discussion and clarification** of key topics
-```
-
-````
-
----------
-
-## Project and community
-
-Example Project is a member of the Ubuntu family. It’s an open source project that warmly welcomes community projects, contributions, suggestions, fixes and constructive feedback.
-
-* Code of conduct
-* Get support
-* Join our online chat
-* Contribute
-* Roadmap
-* Thinking about using Example Product for your next project? Get in touch!
-
-```{toctree}
-:hidden:
-:maxdepth: 2
-
-self
-contributing
-```
+[^1]: Canonical provides additional support through the [Ubuntu Pro](https://ubuntu.com/pro) offering.

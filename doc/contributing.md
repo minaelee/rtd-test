@@ -2,182 +2,319 @@
 orphan: true
 ---
 
-<!-- TODO: Replace all mentions of ACME with your project name -->
-<!-- TODO: Update all sections containing TODOs; make sure no TODOs are left -->
+(installing)=
+# How to install LXD
 
-# How to contribute
+After installing LXD, make sure you have a `lxd` group on your system.
+Users in this group can interact with LXD.
 
-We believe that everyone has something valuable to contribute, whether you're a coder, a writer, or a tester. Here's how and why you can get involved:
 
-- **Why join us?** Work with like-minded people, develop your skills, connect with diverse professionals, and make a difference.
-- **What do you get?** Personal growth, recognition for your contributions, early access to new features, and the joy of seeing your work appreciated.
-- **Start early, start easy**: Dive into code contributions, improve documentation, or be among the first testers. Your presence matters, regardless of experience or the size of your contribution.
+(installing-release)=
+## Choose your release
 
-The guidelines below will help keep your contributions effective and meaningful.
+% Include content from [support.md](support.md)
+```{include} index.md
+    :start-after: <!-- Include start release -->
+    :end-before: <!-- Include end release -->
+```
 
-## Code of conduct
+LTS releases are recommended for production environments, because they benefit from regular bugfix and security updates.
+However, there are no new features added to an LTS release, nor any kind of behavioral change.
 
-When contributing, you must abide by the [Ubuntu Code of Conduct](https://ubuntu.com/community/ethos/code-of-conduct).
+To get all the latest features and monthly updates to LXD, use the feature release branch instead.
 
-## Licence and copyright
 
-<!-- TODO: Update with your license details or drop if excessive -->
+## Install LXD from a package
+###
+The LXD daemon only works on Linux.
 
-By default, all contributions to ACME are made under the AGPLv3 licence. See the [licence](https://github.com/canonical/ACME/blob/main/COPYING) in the ACME GitHub repository for details.
 
-All contributors must sign the [Canonical contributor licence agreement](https://ubuntu.com/legal/contributors), which grants Canonical permission to use the contributions. The author of a change remains the copyright owner of their code (no copyright assignment occurs).
+(installing-snap-package)=
+#### Snap package
 
-## Releases and versions
+LXD publishes and tests [snap packages](https://snapcraft.io/lxd) that work for a number of Linux distributions (for example, Ubuntu, Arch Linux, Debian, Fedora, and OpenSUSE).
 
-<!-- TODO: Add your release and versioning details or drop if excessive -->
+Complete the following steps to install the snap:
 
-ACME uses [semantic versioning](https://semver.org/); major releases occur once or twice a year.
+1. Check the [LXD snap page on Snapcraft](https://snapcraft.io/lxd) to see if a snap is available for your Linux distribution.
 
-The release notes can be found TODO: [here](https://example.com).
+1. Install `snapd`.
+   See the [installation instructions](https://snapcraft.io/docs/installing-snapd) in the Snapcraft documentation.
 
-## Environment setup
+1. Install the snap package.
+   For the latest feature release, use:
 
-<!-- TODO: Update with your prerequisites or drop if excessive -->
+        sudo snap install lxd --channel=latest/stable
 
-To work on the project, you need the following prerequisites:
+   For the LXD 5.21 LTS release, use:
 
-- [TODO: Prerequisite 1](http://example.com)
-- [TODO: Prerequisite 2](http://example.com)
+        sudo snap install lxd --channel=5.21/stable
 
-To install and configure these tools:
+   For the LXD 5.0 LTS release, use:
+
+        sudo snap install lxd --channel=5.0/stable
+
+For more information about LXD snap packages (regarding more versions, update management etc.), see [Managing the LXD snap](https://discourse.ubuntu.com/t/managing-the-lxd-snap-package/37214).
+
+```{note}
+On Ubuntu 18.04 LTS, if you previously had the LXD deb package installed, you can migrate all your existing data over by installing the 5.0 snap and running the following commands:
+
+        sudo install lxd --channel=5.0/stable
+        sudo lxd.migrate
+
+After successfully running the `lxd.migrate` command, you can then switch to a newer snap channel if desired, like the latest one:
+
+        sudo refresh lxd --channel=latest/stable
+```
+
+If you want the current user to be able to interact with the LXD daemon, add it to the `lxd` group as the installation process does not add it for you:
 
 ```bash
-TODO: prerequisite command 1
-TODO: prerequisite command 2
+getent group lxd | grep -qwF "$USER" || sudo usermod -aG lxd "$USER"
 ```
 
-## Submissions
 
-<!-- TODO: Suggest your own PR process or drop if excessive -->
+(installing-other)=
+#### Other installation options
 
-If you want to address an issue or a bug in ACME, notify in advance the people involved to avoid confusion; also, reference the issue or bug number when you submit the changes.
+Some Linux distributions provide installation options other than the snap package.
 
-- Fork [our GitHub repository](https://github.com/canonical/ACME) and add the changes to your fork, properly structuring your commits, providing detailed commit messages, and signing your commits.
+````{tabs}
 
-- Make sure the updated project builds and runs without warnings or errors; this includes linting, documentation, code, and tests.
+```{group-tab} Alpine Linux
 
-- Submit the changes as a [pull request (PR)](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
+To install the feature branch of LXD on Alpine Linux, run:
 
-Your changes will be reviewed in due time; if approved, they will eventually be merged.
-
-### Describing pull requests
-
-<!-- TODO: Update with your own checklist or drop if excessive -->
-
-To be properly considered, reviewed, and merged, your pull request must provide the following details:
-
-- **Title**: Summarise the change in a short, descriptive title.
-- **Description**: Explain the problem that your pull request solves. Mention any new features, bug fixes, or refactoring.
-- **Relevant issues**: Reference any [related issues, pull requests, and repositories](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/autolinked-references-and-urls).
-- **Testing**: Explain whether new or updated tests are included.
-- **Reversibility**: If you propose decisions that may be costly to reverse, list the reasons and suggest steps to reverse the changes if necessary.
-
-### Commit structure and messages
-
-<!-- TODO: Update with your own guidelines or drop if excessive -->
-
-Use separate commits for each logical change, and for changes to different components. Prefix your commit messages with the names of components they affect, using the code tree structure. For example, start a commit that updates the ACME service with `ACME/service:`.
-
-Use [conventional commits](https://www.conventionalcommits.org/) to ensure consistency across the project:
-
-```none
-Ensure correct permissions and ownership for the content mounts
-
-* Work around an ACME issue regarding empty dirs: https://github.com/canonical/ACME/issues/12345
-
-* Ensure the source directory is owned by the user running a container.
-
-Links:
-- ...
-- ...
+    apk add lxd
 ```
 
-Such structure makes it easier to review contributions and simplifies porting fixes to other branches.
+```{group-tab} Arch Linux
 
-### Signing commits
+To install the feature branch of LXD on Arch Linux, run:
 
-<!-- TODO: Update with your suggestions or drop if excessive -->
+    pacman -S lxd
+```
 
-To improve contribution tracking, we use the developer certificate of origin ([DCO 1.1](https://developercertificate.org/)) and require a "sign-off" for any changes going into each branch.
+```{group-tab} Fedora
 
-The sign-off is a simple line at the end of the commit message certifying that you wrote it or have the right to commit it as an open-source contribution.
+Fedora RPM packages for LXC/LXD are available in the [COPR repository](https://copr.fedorainfracloud.org/coprs/ganto/lxc4/).
 
-To sign off on a commit, use the `--signoff` option in `git commit`.
+To install the LXD package for the feature branch, run:
 
-## Code
+    dnf copr enable ganto/lxc4
+    dnf install lxd
 
-### Formatting and linting
+See the [Installation Guide](https://github.com/ganto/copr-lxc4/wiki) for more detailed installation instructions.
+```
 
-<!-- TODO: Update with your linting configuration setup or drop if excessive -->
+```{group-tab} Gentoo
 
-ACME relies on these formatting and linting tools:
+To install the feature branch of LXD on Gentoo, run:
 
-- [TODO: Tool 1](http://example.com)
-- [TODO: Tool 2](http://example.com)
+    emerge --ask lxd
+```
 
-To configure and run them:
+````
+
+### Other operating systems
+
+```{important}
+The builds for other operating systems include only the client, not the server.
+```
+
+````{tabs}
+
+```{group-tab} macOS
+
+LXD publishes builds of the LXD client for macOS through [Homebrew](https://brew.sh/).
+
+To install the feature branch of LXD, run:
+
+    brew install lxc
+```
+
+```{group-tab} Windows
+
+The LXD client on Windows is provided as a [Chocolatey](https://community.chocolatey.org/packages/lxc) package.
+To install it:
+
+1. Install Chocolatey by following the [installation instructions](https://docs.chocolatey.org/en-us/choco/setup).
+1. Install the LXD client:
+
+        choco install lxc
+```
+
+````
+
+You can also find native builds of the LXD client on [GitHub](https://github.com/canonical/lxd/actions):
+
+- LXD client for Linux: [`bin.linux.lxc.aarch64`](https://github.com/canonical/lxd/releases/latest/download/bin.linux.lxc.aarch64), [`bin.linux.lxc.x86_64`](https://github.com/canonical/lxd/releases/latest/download/bin.linux.lxc.x86_64)
+- LXD client for Windows: [`bin.windows.lxc.aarch64.exe`](https://github.com/canonical/lxd/releases/latest/download/bin.windows.lxc.aarch64.exe), [`bin.windows.lxc.x86_64.exe`](https://github.com/canonical/lxd/releases/latest/download/bin.windows.lxc.x86_64.exe)
+- LXD client for macOS: [`bin.macos.lxc.aarch64`](https://github.com/canonical/lxd/releases/latest/download/bin.macos.lxc.aarch64), [`bin.macos.lxc.x86_64`](https://github.com/canonical/lxd/releases/latest/download/bin.macos.lxc.x86_64)
+
+To download a specific build:
+
+1. Make sure that you are logged into your GitHub account.
+1. Filter for the branch or tag that you are interested in (for example, the latest release tag or `main`).
+1. Select the latest build and download the suitable artifact.
+
+## Install LXD from source
+
+Follow these instructions if you want to build and install LXD from the source code.
+
 
 ```bash
-TODO: lint command 1
-TODO: lint command 2
+sudo apt update
+sudo apt install acl attr autoconf automake dnsmasq-base git libacl1-dev libcap-dev liblxc1 liblxc-dev libsqlite3-dev libtool libudev-dev liblz4-dev libuv1-dev make pkg-config rsync squashfs-tools tar tcl xz-utils ebtables
+command -v snap >/dev/null || sudo apt-get install snapd
+sudo snap install --classic go
 ```
 
-### Structure
+```{note}
+If you use the `liblxc-dev` package and get compile time errors when building the `go-lxc` module,
+ensure that the value for `LXC_DEVEL` is `0` for your `liblxc` build. To check that, look at `/usr/include/lxc/version.h`.
+If the `LXC_DEVEL` value is `1`, replace it with `0` to work around the problem. It's a packaging bug that is now fixed,
+see [LP: #2039873](https://bugs.launchpad.net/ubuntu/+source/lxc/+bug/2039873).
+```
 
-- **Check linked code elements**: Ensure coupled code elements, files, and directories are adjacent. For instance, store test data close to the corresponding test code.
-- **Group variable declaration and initialisation**: Declare and initialise variables together to improve code organisation and readability.
-- **Split large expressions**: Break down large expressions into smaller self-explanatory parts. Use multiple variables where appropriate to make the code more understandable and choose names that reflect their purpose.
-- **Use blank lines for logical separation**: Insert a blank line between two logically separate sections of code to improve its structure and readability.
-- **Avoid nested conditions**: Avoid nesting conditions to improve readability and maintainability.
-- **Remove dead code and redundant comments**: Drop unused or obsolete code and comments to promote a cleaner code base and reduce confusion.
-- **Normalise symmetries**: Treat identical operations consistently, using a uniform approach to improve consistency and readability.
-
-### Best practices
-
-<!-- TODO: Update with your best practices or drop if excessive -->
-
-## Tests
-
-<!-- TODO: Update with your testing framework details or drop if excessive -->
-
-All code contributions must include tests.
-
-To run the tests locally before submitting your changes:
+There are a few storage drivers for LXD besides the default `dir` driver.
+Installing these tools adds a bit to initramfs and may slow down your
+host boot, but are needed if you'd like to use a particular driver:
 
 ```bash
-TODO: test command 1
-TODO: test command 2
+sudo apt install lvm2 thin-provisioning-tools
+sudo apt install btrfs-progs
 ```
 
-## Documentation
-
-ACME's documentation is stored in the `DOCDIR` directory of the repository. It is based on the [Canonical starter pack](https://canonical-starter-pack.readthedocs-hosted.com/latest/) and hosted on [Read the Docs](https://about.readthedocs.com/).
-
-For general guidance, refer to the [starter pack guide](https://canonical-starter-pack.readthedocs-hosted.com/latest/).
-
-For syntax help and guidelines, refer to the [Canonical style guides](https://canonical-documentation-with-sphinx-and-readthedocscom.readthedocs-hosted.com/#style-guides).
-
-In structuring, the documentation employs the [Diátaxis](https://diataxis.fr/) approach.
-
-To run the documentation locally before submitting your changes:
+To run the test suite, you'll also need:
 
 ```bash
-make run
+sudo apt install busybox-static curl gettext jq sqlite3 socat bind9-dnsutils
 ```
 
-### Automatic checks
+### From source: Build the latest version
 
-GitHub runs automatic checks on the documentation to verify spelling, validate links, and suggest inclusive language.
-
-You can (and should) run the same checks locally:
+These instructions for building from source are suitable for individual developers who want to build the latest version
+of LXD, or build a specific release of LXD which may not be offered by their Linux distribution. Source builds for
+integration into Linux distributions are not covered here and may be covered in detail in a separate document in the
+future.
 
 ```bash
-make spelling
-make linkcheck
-make woke
+git clone https://github.com/canonical/lxd
+cd lxd
 ```
+
+This will download the current development tree of LXD and place you in the source tree.
+Then proceed to the instructions below to actually build and install LXD.
+
+### From source: Build a release
+
+The LXD release tarballs bundle a complete dependency tree as well as a
+local copy `libdqlite` for LXD's database setup.
+
+```bash
+tar zxvf lxd-4.18.tar.gz
+cd lxd-4.18
+```
+
+This will unpack the release tarball and place you inside of the source tree.
+Then proceed to the instructions below to actually build and install LXD.
+
+### Start the build
+
+The actual building is done by two separate invocations of the Makefile: `make deps` -- which builds libraries required
+by LXD -- and `make`, which builds LXD itself. At the end of `make deps`, a message will be displayed which will specify environment variables that should be set prior to invoking `make`. As new versions of LXD are released, these environment
+variable settings may change, so be sure to use the ones displayed at the end of the `make deps` process, as the ones
+below (shown for example purposes) may not exactly match what your version of LXD requires:
+
+We recommend having at least 2GiB of RAM to allow the build to complete.
+
+```{terminal}
+:input: make deps
+
+...
+make[1]: Leaving directory '/root/go/deps/dqlite'
+# environment
+
+Please set the following in your environment (possibly ~/.bashrc)
+#  export CGO_CFLAGS="${CGO_CFLAGS} -I$(go env GOPATH)/deps/dqlite/include/"
+#  export CGO_LDFLAGS="${CGO_LDFLAGS} -L$(go env GOPATH)/deps/dqlite/.libs/"
+#  export LD_LIBRARY_PATH="$(go env GOPATH)/deps/dqlite/.libs/${LD_LIBRARY_PATH}"
+#  export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
+:input: make
+```
+
+### From source: Install
+
+Once the build completes, you simply keep the source tree, add the directory referenced by `$(go env GOPATH)/bin` to
+your shell path, and set the `LD_LIBRARY_PATH` variable printed by `make deps` to your environment. This might look
+something like this for a `~/.bashrc` file:
+
+```bash
+export PATH="${PATH}:$(go env GOPATH)/bin"
+export LD_LIBRARY_PATH="$(go env GOPATH)/deps/dqlite/.libs/:${LD_LIBRARY_PATH}"
+```
+
+Now, the `lxd` and `lxc` binaries will be available to you and can be used to set up LXD. The binaries will automatically find and use the dependencies built in `$(go env GOPATH)/deps` thanks to the `LD_LIBRARY_PATH` environment variable.
+
+### Machine setup
+
+You'll need sub{u,g}ids for root, so that LXD can create the unprivileged containers:
+
+```bash
+echo "root:1000000:1000000000" | sudo tee -a /etc/subuid /etc/subgid
+```
+
+By default, only users added to the `lxd` group can interact with the LXD daemon. Installing from source doesn't guarantee that the `lxd` group exists in the system. If you want the current user (or any other user) to be able to interact with the LXD daemon, add it to the `lxd` group:
+
+```bash
+getent group lxd >/dev/null || sudo groupadd --system lxd # create the group if needed
+getent group lxd | grep -qwF "$USER" || sudo usermod -aG lxd "$USER"
+```
+
+Now you can run the daemon (the `--group sudo` bit allows everyone in the `sudo`
+group to talk to LXD; you can create your own group if you want):
+
+```bash
+sudo -E PATH=${PATH} LD_LIBRARY_PATH=${LD_LIBRARY_PATH} $(go env GOPATH)/bin/lxd --group sudo
+```
+
+```{note}
+If `newuidmap/newgidmap` tools are present on your system and `/etc/subuid`, `etc/subgid` exist, they must be configured to allow the root user a contiguous range of at least 10M UID/GID.
+```
+
+### Shell completions
+
+Shell completion profiles can be generated with `lxc completion <shell>` (e.g. `lxc completion bash`). Supported shells are `bash`, `zsh`, `fish`, and `powershell`.
+
+```bash
+lxc completion bash > /etc/bash_completion.d/lxc # generating completions for bash as an example
+. /etc/bash_completion.d/lxc
+```
+
+## Manage access to LXD
+
+Access control for LXD is based on group membership.
+The root user and all members of the `lxd` group can interact with the local daemon.
+
+
+```bash
+getent group lxd >/dev/null || sudo groupadd --system lxd
+```
+
+No users are added to the group on installation. You must add trusted users to the group so they can use LXD:
+
+```bash
+getent group lxd | grep -qwF "$USER" || sudo usermod -aG lxd "$USER" # adding current user as an example
+```
+
+
+Because group membership is normally only applied at login, you might need to either re-open your user session or use the `newgrp lxd` command in the shell you're using to talk to LXD.
+
+
+(installing-upgrade)=
+## Upgrade LXD
+
+After upgrading LXD to a newer version, LXD might need to update its database to a new schema.
+This update happens automatically when the daemon starts up after a LXD upgrade.
+A backup of the database before the update is stored in the same location as the active database (for example, at `/var/snap/lxd/common/lxd/database` for the snap installation).
