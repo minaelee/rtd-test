@@ -34,6 +34,7 @@ Feature releases
   The normal support length for those releases is until the next release comes out.
   Some Linux distributions might offer longer support for particular feature releases that they decided to ship.
 
+[^1]: Canonical provides additional support through the [Ubuntu Pro](https://ubuntu.com/pro) offering.
 <!-- Include end release -->
 
 % Include content from [../README.md](../README.md)
@@ -42,4 +43,3 @@ Feature releases
     :end-before: <!-- Include end support -->
 ```
 
-[^1]: Canonical provides additional support through the [Ubuntu Pro](https://ubuntu.com/pro) offering.
