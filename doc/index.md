@@ -5,7 +5,7 @@ Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et[^1]
 dolore magna aliqua.
 
 
-[^1]: Testing
+
 
 % Include content from [../README.md](../README.md)
 ```{include} ../README.md
@@ -13,6 +13,7 @@ dolore magna aliqua.
     :end-before: <!-- Include end support -->
 ```
 
+[^1]: Testing
 
 **A paragraph of one to three short sentences, that describe what the product
 does.** Urna cursus eget nunc scelerisque viverra mauris in. Nibh mauris
